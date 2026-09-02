@@ -1,16 +1,104 @@
-body { padding: 0; margin: 0 }
-#unity-container { position: absolute }
-#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
-#unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
-#unity-canvas { background: #231F20 }
-.unity-mobile #unity-canvas { width: 100%; height: 100% }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
-#unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center }
-#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center }
-#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
-#unity-footer { position: relative }
-.unity-mobile #unity-footer { display: none }
-#unity-logo-title-footer { float:left; width: 102px; height: 38px; background: url('unity-logo-title-footer.png') no-repeat center }
-#unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
-#unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+/*
+ * Responsive WebGL template — 캔버스를 브라우저 뷰포트에 꽉 채웁니다.
+ *
+ * Unity 기본 Default 템플릿은 캔버스를 defaultScreenWidthWeb/HeightWeb(여기서는
+ * 1920x1080) 고정 픽셀로 박고 중앙 정렬만 하므로, 그보다 작은 창에서는 캔버스가
+ * 사방으로 넘쳐 화면이 잘립니다. 이 템플릿은 100%/100%로 채우고 Unity가
+ * matchWebGLToCanvasSize(기본 true)로 렌더 타깃을 따라오게 둡니다.
+ *
+ * 이미지 자산을 쓰지 않습니다(로딩 바까지 순수 CSS) — 템플릿 폴더에
+ * 바이너리를 두지 않기 위해서입니다.
+ */
+
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #231F20;
+}
+
+#unity-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 캔버스 DOM 크기 = 컨테이너 크기. 실제 렌더 해상도는 Unity가 devicePixelRatio까지
+   반영해 맞춥니다. Screen.width/height도 이 값을 따라 갱신됩니다. */
+#unity-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #231F20;
+}
+
+/* 포커스 시 브라우저 기본 외곽선이 화면 테두리에 그려지는 것을 막습니다. */
+#unity-canvas:focus {
+  outline: none;
+}
+
+#unity-loading-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  width: 220px;
+  font-family: arial, sans-serif;
+  color: #ddd;
+  text-align: center;
+}
+
+#unity-loading-text {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+#unity-progress-bar-empty {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+#unity-progress-bar-full {
+  width: 0%;
+  height: 100%;
+  background: #ddd;
+}
+
+#unity-warning {
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%);
+  background: white;
+  font-family: arial, sans-serif;
+  padding: 10px;
+  display: none;
+}
+
+/* 전체화면 버튼은 캔버스 위에 겹칩니다 — 푸터를 두면 그 높이만큼 캔버스가 줄어
+   세로가 다시 모자라기 때문입니다. 평소 흐리게, 마우스를 올리면 또렷하게. */
+#unity-fullscreen-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  opacity: 0.3;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+#unity-fullscreen-button:hover {
+  opacity: 0.9;
+}
